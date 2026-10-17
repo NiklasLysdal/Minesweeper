@@ -1,24 +1,27 @@
 //utility to generate random board
 
-function GenerateBoard(width:number, height: number, bombs:number): Board { //needs parameter to choose bomb generation algorithm
-    let width_array = new Array<Array<Tile>>(width);
+import { createSafeTile, createBombTile, type TileData } from "../tile/Tile";
+import type { BoardData } from "./Board";
+
+function GenerateBoard(width:number, height: number, bombs:number): BoardData { //needs parameter to choose bomb generation algorithm
+    let width_array = new Array<Array<TileData>>(width);
 
     for (let x = 0; x < width; x++) {
-        width_array[x] = new Array<Tile>(height);
+        width_array[x] = new Array<TileData>(height);
     }
     let bombPositions = GenerateBombsRandom(width, height, bombs);
     for (let x = 0; x < width; x++) {
         for (let y = 0; y < height; y++) {
             if (bombPositions.some(([bx, by]) => bx === x && by === y)) {
-                width_array[x][y] = Tile.createBombTile();
+                width_array[x][y] = createBombTile();
             } else {
-                width_array[x][y] = Tile.createSafeTile();
+                width_array[x][y] = createSafeTile();
             }
 
         }
     
     }
-    return new Board(width, height, bombs, width_array);
+    return { tiles: width_array };
 }
 /// generates board coordinates
 function GenerateBombsRandom(width:number, height:number, bombs:number): Array<[number,number]> {

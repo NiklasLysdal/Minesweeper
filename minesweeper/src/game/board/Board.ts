@@ -1,4 +1,4 @@
-import { TileData } from "src/game/Tile/Tile";
+import type { TileData } from '../tile/Tile';
 
 export interface BoardData {
     tiles: TileData[][];
