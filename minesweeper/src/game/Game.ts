@@ -1,18 +1,24 @@
 import { useState } from 'react';
+import { generate_board } from '../game/board/BoardGenerator';
 
 import type { BoardData } from '../game/board/Board';
-export function Game() {
 
-  const [board, setBoard] = useState<BoardData>(/* initial setup */);
-  
-
-  const [status, setStatus] = useState<'playing' | 'won' | 'lost'>('playing');
-
-
-  const handleTileClick = (x: number, y: number) => {
-    if (status !== 'playing') return;
-    throw new Error('Not implemented yet: handleTileClick');
-  };
+export interface GameData {
+    board: BoardData;
+    status: 'playing' | 'won' | 'lost';
+    
+}
 
 
+
+
+
+
+export function create_new_game(width: number, height: number, bombs: number): GameData {
+    const board = generate_board(width, height, bombs);
+    console.log(`Created new game with board size ${width}x${height} and ${bombs} bombs`);
+    return {
+        board,
+        status: 'playing',
+    };
 }
