@@ -1,0 +1,4 @@
+enum TileValue {
+    Bomb,
+    Safe,
+}

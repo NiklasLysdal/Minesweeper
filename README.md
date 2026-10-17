@@ -1,2 +1,2 @@
 # Minesweeper
-React implementation of minesweeper
+React implementation of Minesweeper
