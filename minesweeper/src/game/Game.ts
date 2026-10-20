@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { generate_board } from '../game/board/BoardGenerator';
 
-import  {type BoardData,reveal_tile_click } from '../game/board/Board';
+import  {type BoardData,mark_tile,reveal_tile_click } from '../game/board/Board';
 import type { BoardActionResult } from './BoardActionResult';
 
 export interface GameData {
@@ -31,20 +31,20 @@ export function handle_tile_click(gameData: GameData, x:number, y:number) : Game
     console.log('result is ',result)
     switch (result) {
         case 'won': {
-            gameData.status = 'won';
-            gameData.board = new_board;
-            return gameData;
+            return  {...gameData, board: new_board,status:'won'};
         }
         case 'lost': {
-            gameData.status = 'lost';
-            gameData.board = new_board;
-            return gameData;
+            return  {...gameData, board: new_board,status:'lost'};
         }
         default: {
-            gameData.status='playing';
-            gameData.board=new_board;
-            return gameData;
+            return  {...gameData, board: new_board,status:'playing'};
         }
     }
+    
+}
+
+export function handle_tile_rightClick(gameData:GameData,x:number,y:number) : GameData {
+    let response : BoardData  = mark_tile(gameData.board,x,y)
+    return {...gameData,board: response};
     
 }

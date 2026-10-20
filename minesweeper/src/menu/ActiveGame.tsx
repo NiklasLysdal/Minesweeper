@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BoardView } from '../gameview/board/BoardView';
-import { create_new_game, handle_tile_click, type GameData } from '../game/Game';
+import { create_new_game, handle_tile_click, handle_tile_rightClick, type GameData } from '../game/Game';
 
 
 export default function ActiveGame() {
@@ -12,11 +12,30 @@ export default function ActiveGame() {
 
     // Requirement 1: Print board to console on creation
     useEffect(() => {
-        console.log("Initial Board Generated:", gameData.board);
+        
+        switch (gameData.status) {
+            case 'lost': 
+                 {
+                    console.log('you lost the game dipshit');
+                    break;
+                 }
+            case 'playing': {
+                break;
+            }
+            case 'won': {
+                console.log('Congratulations, you didnt fail.')
+            }
+        }
     }, [gameData.board]);
     let onTileClickCallback =  (x:number,y:number) => {
         console.log('click registered');
         let new_game_data= handle_tile_click(gameData,x,y);
+        setGameData(new_game_data);
+    }
+
+    let onTileRightClickCallback = (x:number,y:number) => {
+        console.log('rightclick registered');
+        let new_game_data = handle_tile_rightClick(gameData,x,y);
         setGameData(new_game_data);
     }
     return (
@@ -24,7 +43,7 @@ export default function ActiveGame() {
             <div>
                 <h1>Minesweeper Testing Arena</h1>
                 {/* Pass the generated board to the visual component */}
-                <BoardView  board = { gameData.board} onTileClick={onTileClickCallback} />
+                <BoardView  board = { gameData.board} onTileClick={onTileClickCallback} onTileRightClick={onTileRightClickCallback} />
                 <button onClick={() => navigate('/')}>Back</button>
             </div>
         </section>
