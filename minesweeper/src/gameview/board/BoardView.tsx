@@ -3,17 +3,20 @@ import { TileView } from '../tile/TileView';
 
 interface BoardViewProps {
     board: BoardData;
+    onTileClick: (x:number,y:number)=>void;
 }
 
-export function BoardView({ board }: BoardViewProps) {
+export function BoardView({ board, onTileClick }: BoardViewProps) {
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', backgroundColor: '#999', padding: '2px', width: 'fit-content' }}>
-            {board.tiles.map((row, y) => (
-                <div key={y} style={{ display: 'flex', gap: '2px' }}>
-                    {row.map((tile, x) => (
+            {board.tiles.map((row, x) => (
+                <div key={x} style={{ display: 'flex', gap: '2px' }}>
+                    {row.map((tile, y) => (
                         // Coordinates are best for React keys in a grid
-                        <TileView key={`${x}-${y}`} tile={tile} />
+                        <TileView key={`${x}-${y}`} tile={tile} onClick={() => onTileClick(x,y)}/>
                     ))}
+                    {/* Comment: needs button to register click. */}
                 </div>
             ))}
         </div>
